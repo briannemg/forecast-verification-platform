@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS verification_results;
 DROP TABLE IF EXISTS observations;
 DROP TABLE IF EXISTS forecasts;
+DROP TABLE IF EXISTS location_stations;
 DROP TABLE IF EXISTS stations;
 DROP TABLE IF EXISTS locations;
 

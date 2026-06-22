@@ -43,6 +43,7 @@ def initialize_database() -> None:
         schema = file.read()
         
     with get_connection() as connection:
+        connection.execute("PRAGMA foreign_keys = ON;")
         connection.executescript(schema)
         
         
