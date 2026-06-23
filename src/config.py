@@ -26,3 +26,6 @@ OPEN_METEO_HISTORICAL_FORECAST_URL = (
 OPEN_METEO_ARCHIVE_URL = (
     "https://archive-api.open-meteo.com/v1/archive"
 )
+
+# run_pipeline configs
+DEFAULT_LOCATION_ID = None

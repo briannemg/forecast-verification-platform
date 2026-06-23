@@ -22,6 +22,7 @@ from datetime import datetime, timezone
 
 import pandas as pd
 
+from src.config import LOCATIONS_FILE
 from src.database import get_connection
 from src.open_meteo_api import get_historical_forecast, get_historical_weather
 
@@ -118,9 +119,20 @@ def load_location(row: pd.Series) -> None:
     print(f"Forecast rows: {len(forecast_df)}")
     print(f"Observed rows: {len(observed_df)}")
     
-def main(location_id: str | None = None) -> None:
-    """Load Open-Meteo data for one or all configured locations."""
-    locations = pd.read_csv("locations.csv")
+def load_locations(location_id: str | None = None) -> None:
+    """Load historical forecast and observed weather data.
+    
+    Parameters
+    ----------
+    location_id : str or None, optional
+        Specific location_id to process. If None, all configured locations
+        are processed.
+        
+    Returns
+    -------
+    None
+    """
+    locations = pd.read_csv(LOCATIONS_FILE)
     
     if location_id is not None:
         locations = locations[locations["location_id"] == location_id]
@@ -128,6 +140,10 @@ def main(location_id: str | None = None) -> None:
         for _, row in locations.iterrows():
             load_location(row)
             
+def main() -> None:
+    """Load forecast and observation data for all configured locations."""
+    load_locations()
+            
             
 if __name__ == "__main__":
-    main("central_kansas_test")
+   main()

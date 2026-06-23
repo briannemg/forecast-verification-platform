@@ -17,6 +17,7 @@ absolute error (MAE), and root mean square error (RMSE).
 
 import pandas as pd
 
+from src.config import LOCATIONS_FILE
 from src.database import get_connection
 
 def calculate_temperature_verification(location_id: str) -> pd.DataFrame:
@@ -139,11 +140,32 @@ def summarize_verification(results: pd.DataFrame) -> None:
     print(f"MAE:  {mae:.2f} °F")
     print(f"RMSE: {rmse:.2f} °F")
     
-def main(location_id: str = "central_kansas_test") -> None:
-    """Run temperature verification workflow for one location."""
-    results = calculate_temperature_verification(location_id)
-    save_verification_results(location_id, results)
-    summarize_verification(results)
+def run_verification(location_id: str | None = None) -> None:
+    """Run verification for one location or all configured locations.
+    
+    Parameters
+    ----------
+    location_id : str or None, optional
+        Specific location_id to process. If None, all configured locations
+        are processed.
+        
+    Returns
+    -------
+    None
+    """
+    locations = pd.read_csv(LOCATIONS_FILE)
+    
+    if location_id is not None:
+        locations = locations[locations["location_id"] == location_id]
+        
+    for current_location_id in locations["location_id"]:
+        results = calculate_temperature_verification(current_location_id)
+        save_verification_results(current_location_id, results)
+        summarize_verification(results)
+    
+def main() -> None:
+    """Run forecast verification for all configured locations."""
+    run_verification()
     
     
 if __name__ == "__main__":

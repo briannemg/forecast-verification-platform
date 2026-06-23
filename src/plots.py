@@ -3,6 +3,7 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
+from src.config import LOCATIONS_FILE
 from src.database import get_connection
 
 def load_verification_data(location_id: str) -> pd.DataFrame:
@@ -119,11 +120,21 @@ def plot_metrics(location_id: str) -> None:
     
     plt.close()
     
+def generate_plots(location_id: str | None = None) -> None:
+    """Generate verification plots for one location or all locations."""
+    locations = pd.read_csv(LOCATIONS_FILE)
     
+    if location_id is not None:
+        locations = locations[locations["location_id"] == location_id]
+        
+    for current_location_id in locations["location_id"]:
+        plot_forecast_vs_observed(current_location_id)
+        plot_error_timeseries(current_location_id)
+        plot_metrics(current_location_id)
+    
+def main():
+    """Run plot generation for all configured locations."""
+    generate_plots()
     
 if __name__ == "__main__":
-    LOCATION_ID = "central_kansas_test"
-    
-    plot_forecast_vs_observed(LOCATION_ID)
-    plot_error_timeseries(LOCATION_ID)
-    plot_metrics(LOCATION_ID)
+    main()
