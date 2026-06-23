@@ -33,27 +33,19 @@ CREATE TABLE location_stations (
 CREATE TABLE forecasts (
     forecast_id INTEGER PRIMARY KEY AUTOINCREMENT,
     location_id TEXT NOT NULL,
-    generated_at TEXT NOT NULL,
     valid_time TEXT NOT NULL,
-    lead_time_hours INTEGER,
     temperature_f REAL,
-    wind_speed TEXT,
-    wind_direction TEXT,
-    short_forecast TEXT,
-    detailed_forecast TEXT,
     retrieved_at TEXT NOT NULL,
     FOREIGN KEY (location_id) REFERENCES locations(location_id)
 );
 
 CREATE TABLE observations (
     observation_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    station_id TEXT NOT NULL,
+    location_id TEXT NOT NULL,
     valid_time TEXT NOT NULL,
-    temperature_c REAL,
     temperature_f REAL,
-    text_description TEXT,
     retrieved_at TEXT NOT NULL,
-    FOREIGN KEY (station_id) REFERENCES stations(station_id)
+    FOREIGN KEY (location_id) REFERENCES locations(location_id)
 );
 
 CREATE TABLE verification_results (
