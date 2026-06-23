@@ -245,8 +245,6 @@ The project generates several analytical outputs for forecast evaluation.
 
 ## Example Workflow
 
-## Example Workflow
-
 Run the full end-to-end forecast verification pipeline:
 
 ```bash
